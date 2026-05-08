@@ -1,26 +1,74 @@
 @import "tailwindcss";
 
+/* ── Workshop-White / Swiss Industrial Palette ──────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --white: oklch(1 0 0);                    /* Pure white substrate */
+  --paper: oklch(0.97 0.003 80);            /* Off-white paper */
+  --ink: oklch(0.08 0.006 240);             /* Near-black ink */
+  --ink-muted: oklch(0.40 0.006 240);       /* Muted ink */
+  --red: oklch(0.50 0.22 28);              /* Signal red — aviation/hazard */
+  --red-light: oklch(0.65 0.18 28);        /* Red lighter for hover */
+  --border: oklch(0.88 0.003 240);          /* Light border */
+  --rule: oklch(0.14 0.008 240);            /* Heavy rule */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-white: var(--white);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-red: var(--red);
+  --color-red-light: var(--red-light);
+  --color-border: var(--border);
+  --color-rule: var(--rule);
+  --font-display: var(--font-bebas);
+  --font-body: var(--font-hanken);
+  --font-mono: var(--font-jetbrains);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html,
+body {
+  background: var(--white) !important;
+  color: var(--ink) !important;
+  font-family: var(--font-hanken), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Swiss grid noise overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Marquee */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
 }
